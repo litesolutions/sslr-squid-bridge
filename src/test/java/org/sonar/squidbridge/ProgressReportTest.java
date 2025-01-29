@@ -19,25 +19,24 @@
  */
 package org.sonar.squidbridge;
 
-import com.google.common.collect.ImmutableList;
 import java.util.List;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-import org.mockito.ArgumentCaptor;
-import org.sonar.api.utils.log.Logger;
+import java.util.concurrent.TimeUnit;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.mockito.ArgumentCaptor;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import org.sonar.api.utils.log.Logger;
+
+import com.google.common.collect.ImmutableList;
 
 public class ProgressReportTest {
 
-  @Rule
-  public final Timeout timeout = new Timeout(5000);
-
-  @Test(timeout=5000)
+    @Test
+    @Timeout(value = 5, unit = TimeUnit.SECONDS)
   public void test() throws Exception {
     Logger logger = mock(Logger.class);
 
@@ -69,7 +68,8 @@ public class ProgressReportTest {
     assertThat(messages.get(messages.size() - 1)).isEqualTo("2/2" + " source files have been analyzed");
   }
 
-  @Test(timeout=5000)
+  @Test
+  @Timeout(value = 2, unit = TimeUnit.SECONDS)
   public void testCancel() throws InterruptedException {
     Logger logger = mock(Logger.class);
 

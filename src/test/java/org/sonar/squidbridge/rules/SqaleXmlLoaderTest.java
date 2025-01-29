@@ -19,15 +19,15 @@
  */
 package org.sonar.squidbridge.rules;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.debt.DebtRemediationFunction.Type;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class SqaleXmlLoaderTest {
 
@@ -75,9 +75,11 @@ public class SqaleXmlLoaderTest {
     assertThat(buildRepository().rules()).isEmpty();
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void empty_xml_file() throws Exception {
-    SqaleXmlLoader.load(repository, "/rules/empty.xml");
+      assertThrows(IllegalStateException.class, () -> {
+          SqaleXmlLoader.load(repository, "/rules/empty.xml");
+      });
   }
 
   private Repository buildRepository() {

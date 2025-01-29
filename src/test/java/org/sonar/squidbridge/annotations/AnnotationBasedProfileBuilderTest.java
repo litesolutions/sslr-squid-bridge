@@ -19,9 +19,13 @@
  */
 package org.sonar.squidbridge.annotations;
 
-import com.google.common.collect.ImmutableList;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.Collection;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.rules.ActiveRule;
@@ -30,11 +34,7 @@ import org.sonar.api.rules.RulePriority;
 import org.sonar.api.utils.ValidationMessages;
 import org.sonar.check.Rule;
 
-import java.util.Collection;
-
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.google.common.collect.ImmutableList;
 
 public class AnnotationBasedProfileBuilderTest {
 
@@ -48,7 +48,7 @@ public class AnnotationBasedProfileBuilderTest {
   org.sonar.api.rules.Rule rule = mock(org.sonar.api.rules.Rule.class);
   private AnnotationBasedProfileBuilder builder = new AnnotationBasedProfileBuilder(ruleFinder);
 
-  @Before
+  @BeforeEach
   public void setupRuleFinder() {
     when(rule.getSeverity()).thenReturn(RulePriority.MINOR);
     when(rule.isEnabled()).thenReturn(true);

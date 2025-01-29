@@ -19,20 +19,25 @@
  */
 package org.sonar.squidbridge.recognizer;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 public class RegexDetectorTest {
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test()
   public void testNegativeProbability() {
-    new RegexDetector("toto", -1);
+    assertThrows(IllegalArgumentException.class, () -> {
+      new RegexDetector("toto", -1);
+    });
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testProbabilityHigherThan1() {
-    new RegexDetector("toto", 1.2);
+    assertThrows(IllegalArgumentException.class, () -> {
+      new RegexDetector("toto", 1.2);
+    });
   }
 
   @Test

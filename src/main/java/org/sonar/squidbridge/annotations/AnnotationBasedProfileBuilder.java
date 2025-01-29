@@ -19,7 +19,6 @@
  */
 package org.sonar.squidbridge.annotations;
 
-import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;

@@ -20,14 +20,15 @@
 package org.sonar.squidbridge.rules;
 
 import java.net.URL;
-import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinition.NewRepository;
 import org.sonar.api.server.rule.RulesDefinition.NewRule;
 import org.sonar.api.server.rule.RulesDefinition.Repository;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class ExternalDescriptionLoaderTest {
 
@@ -51,17 +52,23 @@ public class ExternalDescriptionLoaderTest {
     assertThat(rule.htmlDescription()).isEqualTo("my description");
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void rule_without_description() throws Exception {
-    repository.createRule("ruleWithoutExternalInfo").setName("name1");
-    buildRepository().rule("ruleWithoutExternalInfo");
+
+    assertThrows(IllegalStateException.class, () -> {
+          repository.createRule("ruleWithoutExternalInfo").setName("name1");
+          buildRepository().rule("ruleWithoutExternalInfo");
+    });
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void invalid_url() throws Exception {
-    ExternalDescriptionLoader loader = new ExternalDescriptionLoader(LANGUAGE_KEY);
-    NewRule rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");
-    loader.addHtmlDescription(rule, new URL("file:///xx/yy"));
+
+    assertThrows(IllegalStateException.class, () -> {
+      ExternalDescriptionLoader loader = new ExternalDescriptionLoader(LANGUAGE_KEY);
+      NewRule rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");
+      loader.addHtmlDescription(rule, new URL("file:///xx/yy"));
+    });
   }
 
   private Repository buildRepository() {
